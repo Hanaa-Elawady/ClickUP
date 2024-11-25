@@ -6,9 +6,11 @@ using ClickUp.Repository.Repositories;
 using ClickUp.Service.HandleResponse;
 using ClickUp.Service.Hubs;
 using ClickUp.Service.Interfaces;
+using ClickUp.Service.Mapping.Profiles;
 using ClickUp.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Store.Service.Services;
 
 
 namespace ClickUP.Web.Helper.Extensions
@@ -19,6 +21,9 @@ namespace ClickUP.Web.Helper.Extensions
         {
             services.AddSignalR();
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddAutoMapper(typeof(AuthProfile));
 
             services.AddSingleton<ClickUpDbContext>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
@@ -27,6 +32,8 @@ namespace ClickUP.Web.Helper.Extensions
 
             services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(identityOptions =>
             {
+                identityOptions.User.AllowedUserNameCharacters = null;
+                identityOptions.User.RequireUniqueEmail = true;
                 identityOptions.Password.RequiredLength = 6;
                 identityOptions.SignIn.RequireConfirmedEmail = false;
             }, mongoIdentityOptions =>
