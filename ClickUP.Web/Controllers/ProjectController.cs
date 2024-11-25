@@ -1,6 +1,7 @@
 ﻿using ClickUp.Data.Entities.MainEntities;
 using ClickUp.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 
 namespace ClickUP.Web.Controllers
 {
@@ -22,7 +23,7 @@ namespace ClickUP.Web.Controllers
         => Ok(await service.CreateProjectAsync(projectName));
 
         [HttpGet]
-        public Task<Project> GetProject(string projectId)
+        public Task<Project> GetProject(ObjectId projectId)
             => service.GetProjectByIdAsync(projectId);
 
     }

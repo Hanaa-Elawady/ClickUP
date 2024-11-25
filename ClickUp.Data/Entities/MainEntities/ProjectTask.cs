@@ -6,7 +6,7 @@ namespace ClickUp.Data.Entities.MainEntities
     {
         public string TaskName { get; set; }
         public string Status { get; set; } = "ToDo";
-        public List<ApplicationUser> Assignees { get; set; }
+        public string Assignee { get; set; }
         public string Description { get; set; }
         public string Priority { get; set; } = "Normal";
     }

@@ -56,7 +56,7 @@ namespace ClickUp.Service.Services
             }
             else 
             {
-                var userToRegister = _mapper.Map<ApplicationUser>(userData);
+                var userToRegister = _mapper.Map<ApplicationUser>(userData.Result);
                 var result = await _userManager.CreateAsync(userToRegister);
                 await _signInManager.SignInAsync(userToRegister, isPersistent: false);
                 token= _tokenService.GenerateUserToken(userToRegister);

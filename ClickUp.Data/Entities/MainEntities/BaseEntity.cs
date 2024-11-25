@@ -6,7 +6,7 @@ namespace ClickUp.Data.Entities.MainEntities
     public class BaseEntity
     {
         [BsonId]
-        public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
+        public ObjectId Id { get; set; } = ObjectId.GenerateNewId();
 
     }
 }

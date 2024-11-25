@@ -1,6 +1,7 @@
 ﻿using ClickUp.Data.Contexts;
 using ClickUp.Data.Entities.MainEntities;
 using ClickUp.Repository.Interfaces;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ClickUp.Repository.Repositories
@@ -17,7 +18,7 @@ namespace ClickUp.Repository.Repositories
 
         }
 
-        public async Task<T> GetByIdAsync(string id)
+        public async Task<T> GetByIdAsync(ObjectId id)
            => await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
 
@@ -31,12 +32,12 @@ namespace ClickUp.Repository.Repositories
             await _collection.InsertOneAsync(entity);
         }
 
-        public async Task UpdateAsync(string id, T entity)
+        public async Task UpdateAsync(FilterDefinition<T> oldEntity, UpdateDefinition<T> newEntity)
         {
-            await _collection.ReplaceOneAsync(x => x.Id == id, entity);
+            await _collection.UpdateOneAsync(oldEntity, newEntity);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(ObjectId id)
         {
             await _collection.DeleteOneAsync(x => x.Id == id);
         }
